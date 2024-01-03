@@ -31,7 +31,7 @@ fn interactive() {
         .read_line(&mut input_operation)
         .expect("Failed to read input.");
 
-    let operation = Operation::from_str(&input_operation.trim());
+    let operation = Operation::from_str(input_operation.trim());
 
     if operation.is_none() {
         println!("Invalid operation.");
@@ -96,7 +96,7 @@ fn cli(args: Vec<String>) -> Option<i32> {
 
     // Assume the operation is the first argument
     // Also assume it is not a flag, should be just a word
-    let operation = Operation::from_str(&args[1].trim());
+    let operation = Operation::from_str(args[1].trim());
     let mut total = numbers.remove(0);
 
     if operation.is_none() {
@@ -115,7 +115,7 @@ fn cli(args: Vec<String>) -> Option<i32> {
     }
 
     println!("{total}");
-    return Some(total);
+    Some(total)
 }
 
 fn main() {
