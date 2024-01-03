@@ -58,7 +58,7 @@ fn interactive() {
     }
 }
 
-fn cli(args: Vec<String>) {
+fn cli(args: Vec<String>) -> Option<i32> {
     let mut numbers: Vec<i32> = vec![];
 
     // Turn every number in the args to a i32 to put in the vec
@@ -82,12 +82,13 @@ fn cli(args: Vec<String>) {
             "div" => total /= item,
             opp => {
                 println!("Invalid operation \"{opp}\".");
-                return;
+                return None;
             }
         }
     }
 
     println!("{total}");
+    return Some(total);
 }
 
 fn main() {
@@ -97,5 +98,48 @@ fn main() {
         interactive();
     } else {
         cli(args);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn generate_args(operation: String, numbers: Vec<i32>) -> Vec<String> {
+        let mut vec = vec![String::from("target/test"), operation];
+    
+        for item in numbers {
+            vec.push(item.to_string());
+        }
+    
+        return vec;
+    }
+
+    fn test_cli(operation: &str, numbers: Vec<i32>, solution: i32) {
+        let args = generate_args(operation.to_string(), numbers);
+        let result = cli(args);
+
+        assert_eq!(result.is_some(), true);
+        assert_eq!(result.unwrap(), solution);
+    }
+
+    #[test]
+    fn cli_addition() {
+        test_cli("add", vec![1, 2], 3);
+    }
+
+    #[test]
+    fn cli_subtraction() {
+        test_cli("sub", vec![10, 3], 7);
+    }
+
+    #[test]
+    fn cli_multiplication() {
+        test_cli("mult", vec![5, 5], 25);
+    }
+
+    #[test]
+    fn cli_division() {
+        test_cli("div", vec![30, 3], 10);
     }
 }
