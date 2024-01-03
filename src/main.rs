@@ -59,37 +59,33 @@ fn interactive() {
 }
 
 fn cli(args: Vec<String>) {
-    let mut total = 0;
     let mut numbers: Vec<i32> = vec![];
 
     // Turn every number in the args to a i32 to put in the vec
     for item in &args {
-        if item.parse::<i32>().is_ok() {
-            numbers.push(item.parse::<i32>().unwrap());
+        let possible_num = item.parse::<i32>();
+        if let Ok(number) = possible_num {
+            numbers.push(number);
         }
     }
 
-    // Check what operation the user wants to perform
-    if args.contains(&String::from("--add")) {
-        for item in numbers { // Calculate the result
-            total += item;
+    // Assume the operation is the first argument
+    // Also assume it is not a flag, should be just a word
+    let mode = args[1].as_str();
+    let mut total = numbers.remove(0);
+
+    for item in numbers {
+        match mode {
+            "add" => total += item,
+            "sub" => total -= item,
+            "mult" => total *= item,
+            "div" => total /= item,
+            opp => {
+                println!("Invalid operation \"{opp}\".");
+                return;
+            }
         }
-    } else if args.contains(&String::from("--sub")) {
-        total = numbers.remove(0); 
-        for item in numbers {
-            total -= item;
-        }
-    } else if args.contains(&String::from("--mult")) {
-        total = numbers.remove(0);
-        for item in numbers {
-            total *= item;
-        }
-    } else if args.contains(&String::from("--div")) {
-        total = numbers.remove(0);
-        for item in numbers {
-            total /= item;
-        }
-    } 
+    }
 
     println!("{total}");
 }
