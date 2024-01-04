@@ -1,6 +1,5 @@
 use std::env;
 use std::io::{self, Write};
-use std::num::ParseIntError;
 
 enum Operation {
     Add,
@@ -67,8 +66,8 @@ fn interactive() {
         .expect("Failed to read input.");
 
     // Parse the strings into integers
-    let num1: Result<i32, ParseIntError> = num1.trim().parse();
-    let num2: Result<i32, ParseIntError> = num2.trim().parse();
+    let num1 = num1.trim().parse();
+    let num2 = num2.trim().parse();
 
     let parse_err = "Error: Cannot convert the specified number(s) to integers.";
 
@@ -81,8 +80,8 @@ fn interactive() {
         println!("{parse_err}");
         return;
     }
-    let num1 = num1.unwrap();
-    let num2 = num2.unwrap();
+    let num1: i32 = num1.unwrap();
+    let num2: i32 = num2.unwrap();
     
 
     // Perform the desired operation
