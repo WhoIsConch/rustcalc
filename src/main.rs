@@ -1,5 +1,6 @@
 use std::env;
 use std::io::{self, Write};
+use inline_colorization::*;
 
 enum Operation {
     Add,
@@ -41,7 +42,7 @@ fn interactive() {
     let operation = Operation::from_str(input_operation.trim());
 
     if operation.is_none() {
-        println!("Invalid operation.");
+        println!("{color_red}Invalid operation.{color_reset}");
         return;
     }
 
@@ -74,10 +75,10 @@ fn interactive() {
     // Handle the error instead of crashing the program so the user
     // understands what went wrong
     if let Err(_) = num1 {
-        println!("{parse_err}");
+        println!("{color_red}{parse_err}{color_reset}");
         return;
     } else if let Err(_) = num2 {
-        println!("{parse_err}");
+        println!("{color_red}{parse_err}{color_reset}");
         return;
     }
     let num1: i32 = num1.unwrap();
@@ -100,7 +101,7 @@ fn interactive() {
         }
         Operation::Divide => {
             if num2 == 0 {
-                println!("Cannot divide by zero!");
+                println!("{color_red}Cannot divide by zero!{color_reset}");
                 return;
             }
 
@@ -127,7 +128,7 @@ fn cli(args: Vec<String>) -> Option<i32> {
     let mut total = numbers.remove(0);
 
     if operation.is_none() {
-        println!("Invalid operation.");
+        println!("{color_red}Invalid operation.{color_reset}");
         return None;
     }
     let operation = operation.unwrap();
@@ -139,7 +140,7 @@ fn cli(args: Vec<String>) -> Option<i32> {
             Operation::Multiply => total *= item,
             Operation::Divide => {
                 if item == 0 {
-                    println!("Cannot divide by zero!");
+                    println!("{color_red}Cannot divide by zero!{color_reset}");
                     return None;
                 }
                 total /= item
