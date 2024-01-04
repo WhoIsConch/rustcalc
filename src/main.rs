@@ -32,6 +32,13 @@ fn interactive() {
         .read_line(&mut input_operation)
         .expect("Failed to read input.");
 
+    let input_operation = input_operation.trim();
+
+    if input_operation == "exit" {
+        println!("Goodbye!");
+        return;
+    }
+
     let operation = Operation::from_str(input_operation.trim());
 
     if operation.is_none() {
