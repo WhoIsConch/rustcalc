@@ -211,4 +211,25 @@ mod tests {
     fn cli_division() {
         test_cli(Operation::Divide, vec![30, 3], 10);
     }
+
+    #[test]
+    fn cli_div_by_zero() {
+        let args = generate_args(Operation::Divide, vec![20, 0]);
+        let result = cli(args);
+
+        assert_eq!(result, None);
+    }
+
+    #[test]
+    fn cli_invalid_operation() {
+        let args = vec![
+            String::from("/target/test"), 
+            String::from("notanopp"), 
+            String::from("4"), 
+            String::from("5"),
+            ];
+        let result = cli(args);
+
+        assert_eq!(result, None);
+    }
 }
