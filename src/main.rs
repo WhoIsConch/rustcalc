@@ -13,9 +13,9 @@ impl Operation {
     fn from_str(name: &str) -> Option<Operation> {
         match name {
             "add" => Some(Operation::Add),
-            "sub" => Some(Operation::Subtract),
-            "mult" => Some(Operation::Multiply),
-            "div" => Some(Operation::Divide),
+            "sub" | "subtract" => Some(Operation::Subtract),
+            "mult" | "multiply" => Some(Operation::Multiply),
+            "div" | "divide" => Some(Operation::Divide),
             _ => None,
         }
     }
@@ -70,7 +70,7 @@ fn interactive() {
     let num1: Result<i32, ParseIntError> = num1.trim().parse();
     let num2: Result<i32, ParseIntError> = num2.trim().parse();
 
-    let parse_err = "Error: Cannot perform operations on non-numbers (make sure you enter real numbers).";
+    let parse_err = "Error: Cannot convert the specified number(s) to integers.";
 
     // Handle the error instead of crashing the program so the user
     // understands what went wrong
