@@ -1,5 +1,6 @@
 use std::env;
 use std::io::{self, Write};
+use std::num::ParseIntError;
 
 enum Operation {
     Add,
@@ -21,7 +22,7 @@ impl Operation {
 }
 
 fn interactive() {
-    println!("Welcome to basic calculator. Your choices: \"add\", \"sub\", \"mult\", \"div\"");
+    println!("Welcome to basic calculator. Your choices: \"add\", \"sub\", \"mult\", \"div\", or \"exit\" to exit.");
 
     print!("Your choice: ");
     io::stdout().flush().unwrap(); // Print to the terminal and panic if we can't.
@@ -59,8 +60,23 @@ fn interactive() {
         .expect("Failed to read input.");
 
     // Parse the strings into integers
-    let num1: i32 = num1.trim().parse().expect("Requires a number.");
-    let num2: i32 = num2.trim().parse().expect("Requires a number.");
+    let num1: Result<i32, ParseIntError> = num1.trim().parse();
+    let num2: Result<i32, ParseIntError> = num2.trim().parse();
+
+    let parse_err = "Error: Cannot perform operations on non-numbers (make sure you enter real numbers).";
+
+    // Handle the error instead of crashing the program so the user
+    // understands what went wrong
+    if let Err(_) = num1 {
+        println!("{parse_err}");
+        return;
+    } else if let Err(_) = num2 {
+        println!("{parse_err}");
+        return;
+    }
+    let num1 = num1.unwrap();
+    let num2 = num2.unwrap();
+    
 
     // Perform the desired operation
     match operation {
