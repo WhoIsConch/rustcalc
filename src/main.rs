@@ -99,6 +99,11 @@ fn interactive() {
             println!("{num1} * {num2} = {res}");
         }
         Operation::Divide => {
+            if num2 == 0 {
+                println!("Cannot divide by zero!");
+                return;
+            }
+
             let res = num1 / num2;
             println!("{num1} / {num2} = {res}");
         }
@@ -132,7 +137,13 @@ fn cli(args: Vec<String>) -> Option<i32> {
             Operation::Add => total += item,
             Operation::Subtract => total -= item,
             Operation::Multiply => total *= item,
-            Operation::Divide => total /= item,
+            Operation::Divide => {
+                if item == 0 {
+                    println!("Cannot divide by zero!");
+                    return None;
+                }
+                total /= item
+            },
         }
     }
 
