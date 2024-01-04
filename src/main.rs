@@ -122,6 +122,11 @@ fn cli(args: Vec<String>) -> Option<i32> {
         }
     }
 
+    if numbers.len() <= 0 {
+        println!("{color_red}Cannot convert the specified numbers to integers.{color_reset}");
+        return None;
+    }
+
     // Assume the operation is the first argument
     // Also assume it is not a flag, should be just a word
     let operation = Operation::from_str(args[1].trim());
@@ -232,5 +237,13 @@ mod tests {
         let result = cli(args);
 
         assert_eq!(result, None);
+    }
+
+    #[test]
+    fn cli_no_nums() {
+        let args = generate_args(Operation::Add, vec![]);
+        let result = cli(args);
+
+        assert_eq!(result, None)
     }
 }
