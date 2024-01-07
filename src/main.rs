@@ -105,9 +105,25 @@ fn interactive() {
                 return;
             }
 
-            let res = num1 / num2;
+            let res: f32 = num1 as f32 / num2 as f32;
             println!("{num1} / {num2} = {res}");
         }
+    }
+
+    print!("Would you like to do another calculation? (y/n): ");
+    io::stdout().flush().unwrap();
+
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read input.");
+
+    let input = input.trim();
+
+    if input == "y" || input == "yes" {
+        interactive();
+    } else {
+        println!("Goodbye!");
     }
 }
 
